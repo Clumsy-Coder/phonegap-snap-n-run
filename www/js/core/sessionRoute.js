@@ -15,12 +15,18 @@ class sessionRoute{
 			longitude: longitude,
 			imagePath: imageDir
 		});
+		console.log(`img added to sessionRoute`);
 	}
 
 	addRoute(latitude, longitude){
-		let latLong = new google.maps.LatLng(latitude, longitude);
-		this.routes.push(latLong.toJSON());
-		console.log(`coords added: ${latLong.lat()}`);
+		// let latLong = new google.maps.LatLng(latitude, longitude);
+		// this.routes.push(latLong.toJSON());
+		let latLong = new Object();
+		latLong['lat'] = latitude;
+		latLong['lng'] = longitude;
+		this.routes.push(latLong);
+		// console.log(`coords added: ${latLong}`);
+		// console.log(`coords added: ${latLong.lat()}`);
 	}
 
 	// this is used for when saving the data to store.js

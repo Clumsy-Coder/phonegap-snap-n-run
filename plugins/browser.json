@@ -7,10 +7,10 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
-        "cordova-plugin-camera": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         }
     },

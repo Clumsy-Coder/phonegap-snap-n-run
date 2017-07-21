@@ -28,7 +28,11 @@ window.onload = function(){
 	sessionMaps = new googleMaps(document.getElementById("mapContainer"));
 
 	navigator.geolocation.getCurrentPosition(
-		(position) => sessionMaps.loadMaps(position.coords.latitude, position.coords.longitude),
+		(position) => {
+			sessionMaps.loadMaps(position.coords.latitude, position.coords.longitude);
+			curSession.addRoute(position.coords.latitude, position.coords.longitude);
+			sessionMaps.drawRoute(curSession.routes);
+		},
 		(error) => console.log(`unable to get GPS location \n${error.code}\n${error.message}`),
 		geoOpts
 	);
@@ -43,41 +47,33 @@ function stopRecording(){
 }
 
 function onMapWatchSuccess(position){
-	console.log("inside onMapWatchSuccess");
+	// console.log("-----start-----");
 	const newCoords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	console.log(`GPS coords: ${position.coords.latitude}\t${position.coords.longitude}`);
-	console.log(`moving marker`);
-	sessionMaps.mainMarker.setPosition(newCoords);
-	// main marker always on top
-	sessionMaps.mainMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
-	console.log(`moving map location`);
-	sessionMaps.mapCanvas.panTo(newCoords);
 
-	console.log(`adding route to sessionRoute`);
-	// const deltaLat = curSession.routes[curSession.routes.length - 1].lat - position.coords.latitude;
-	// const deltaLong = curSession.routes[curSession.routes.length - 1].long - position.coords.latitude;
-	// console.log(`delta coords: ${deltaLat}\t${deltaLong}`);
-	console.log(curSession.routes);
-	console.log(`routes length: ${curSession.routes.length}`);
-	console.log("---------");
+	const lastCoords = curSession.routes[curSession.routes.length - 1];
+	const deltaLat = Math.abs(newCoords.lat() - lastCoords.lat);
+	const deltaLng = Math.abs(newCoords.lng() - lastCoords.lng);
+	// console.log(`newCoords: ${newCoords}`);
+	// console.log(`lastCoords.lat: ${lastCoords.lat}`);
+	// console.log(`lastCoords.lng: ${lastCoords.lng}`);
+	// console.log(`delta.lat: ${deltaLat}`);
+	// console.log(`delta.lng: ${deltaLng}`);
 
-	console.log("---------");
-	curSession.addRoute(position.coords.latitude, position.coords.longitude);
-	console.log(`drawing the route`);
-	sessionMaps.drawRoute(curSession.routes);
+	const latPrecision = 0.00001;
+	const lngPrecision = 0.00001;
 
-	if(curSession.routes.length > 0){
-		const lastCoords = curSession.routes[curSession.routes.length - 1];
-		// let lastCoords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-		for(var key in lastCoords){
-			if(lastCoords.hasOwnProperty(key)){
-				var val = lastCoords[key];
-				console.log(val);
-			}
-		}
+	if(deltaLat > latPrecision || deltaLng > lngPrecision){
+		sessionMaps.mainMarker.setPosition(newCoords);
+		// main marker always on top
+		sessionMaps.mainMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+		sessionMaps.mapCanvas.panTo(newCoords);
 
-		console.log(`lat: ${lastCoords.lat()}\nlong: ${lastCoords.lng()}`);
+		// console.log(`adding newCoords to route`);
+		curSession.addRoute(position.coords.latitude, position.coords.longitude);
+		sessionMaps.drawRoute(curSession.routes);
 	}
+
+	// console.log("-----end-----");
 
 }
 
@@ -98,25 +94,44 @@ function takePhoto(){
 	let coordinates = null;
 	let picture = null;
 
-	getLocation().then((position) => {
+	// getLocation().then((position) => {
+	// 	console.log(`img coordinates: ${position.coords.latitude} : ${position.coords.longitude}`);
+	// 	coordinates = position;
+	// }).catch((error) => {
+	// 	console.log(`takePhoto() error: unable to get GPS coordinates\n${error}`);
+	// 	navigator.notification.alert(`Error: unable to retrieve GPS coordinates for picture\n${error}`);
+	// }).then(getPicture().then((imageData) => {
+	// 	console.log(`img location: ${imageData}`);
+	// 	picture = imageData;
+	// 	curSession.addPic(coordinates.coords.latitude,
+	// 					  coordinates.coords.longitude,
+	// 				  	  picture);
+	// 	addImgMarker(coordinates, picture);
+	// }).catch((error) => {
+	// 	console.log(`Error: unable to get picture
+	// 	${error}`);
+	// 	navigator.notification.alert(`Error: unable to get picture
+	// 	${error}`)
+	// }));
+
+	// getLocation()
+	// .then((position) => {
+	// 	console.log(`img coordinates: ${position.coords.latitude} : ${position.coords.longitude}`);
+	// 	coordinates = position;
+	// }).catch(onGeoError)
+	// .then(getPicture().then((imageData) => {
+	// 	console.log(`img location: ${imageData}`);
+	// 	picture = imageData;
+	// 	curSession.addPic(coordinates.coords.latitude, coordinates.coords.longitude, picture);
+	// 	addImgMarker(coordinates, picture);
+	// })).catch(onCameraError);
+
+	getLocation()
+	.then((position) => {
+		console.log(`img coordinates: ${position.coords.latitude} : ${position.coords.longitude}`);
 		coordinates = position;
-	}).catch((error) => {
-		console.log(`takePhoto() error: unable to get GPS coordinates
-					${error}`);
-		navigator.notification.alert(`Error: unable to retrieve GPS coordinates for picture
-						${error}`);
-	}).then(getPicture()).then((img) => {
-		picture = img;
-		curSession.addPic(coordinates.coords.latitude,
-						  coordinates.coords.longitude,
-					  	  picture);
-		addImgMarker(coordinates, picture);
-	}).catch((error) => {
-		console.log(`Error: unable to get picture
-		${error}`);
-		navigator.notification.alert(`Error: unable to get picture
-		${error}`)
-	});
+		getPicture(position);
+	}).catch(onGeoError);
 
 }
 
@@ -129,29 +144,57 @@ function getLocation(){
 	});
 }
 
-function getPicture(){
-	return new Promise(function (resolve, reject){
-		const cameraOpts = {
-			quality: 100,
-			sourceType: Camera.PictureSourceType.CAMERA,
-			encodingType: Camera.EncodingType.PNG,
-			cameraDirection: Camera.Direction.FRONT,
-			destinationType: Camera.DestinationType.FILE_URI
-		};
-		navigator.camera.getPicture(resolve, reject, cameraOpts);
-	});
+function getPicture(coordinates){
+	// return new Promise(function (resolve, reject){
+	// 	const cameraOpts = {
+	// 		quality: 100,
+	// 		sourceType: Camera.PictureSourceType.CAMERA,
+	// 		encodingType: Camera.EncodingType.PNG,
+	// 		cameraDirection: Camera.Direction.FRONT,
+	// 		destinationType: Camera.DestinationType.FILE_URI
+	// 	};
+	// 	navigator.camera.getPicture(resolve, reject, cameraOpts);
+	// });
+	const cameraOpts = {
+		quality: 100,
+		sourceType: Camera.PictureSourceType.CAMERA,
+		encodingType: Camera.EncodingType.PNG,
+		cameraDirection: Camera.Direction.FRONT,
+		destinationType: Camera.DestinationType.FILE_URI
+	};
+
+	navigator.camera.getPicture((imageData) => {
+		console.log(`img: ${imageData}`);
+		curSession.addPic(coordinates.coords.latitude, coordinates.coords.longitude, imageData);
+		addImgMarker(coordinates, imageData);
+	}, onCameraError, cameraOpts);
+
+}
+
+function onGeoError(error){
+	console.log(`takePhoto() error: unable to get GPS coordinates\n${error}`);
+	navigator.notification.alert(`Error: unable to retrieve GPS coordinates for picture\n${error}`);
+}
+
+function onCameraError(error){
+	console.log(`Error: unable to get picture\n${error}`);
+	navigator.notification.alert(`Error: unable to get picture\n${error}`)
 }
 
 function addImgMarker(position, picture){
+	// console.log(`------addImgMarker start-------`);
+	// console.log(`coords: ${position.coords.latitude} : ${position.coords.longitude}`);
+	// console.log(`picture: ${picture}`);
 	const imgMarkerOpts = {
 		id: curSession.pics.length - 1,       //this will be used for getting the image in picArray
-		map: sessionMaps.map,
+		map: sessionMaps.mapCanvas,
 		animation: google.maps.Animation.DROP,
 		position: {lat: position.coords.latitude, lng: position.coords.longitude},
 		icon: {url: "https://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png"}
 	};
 
 	let imgMarker = new google.maps.Marker(imgMarkerOpts);
+	// console.log(`imgMarker created`);
 	imgMarker.addListener("click", function(){
 
 		$("#viewImgModal").modal({
@@ -168,6 +211,8 @@ function addImgMarker(position, picture){
 		$("#viewImgModal").modal("open");
 
 	});
+	// console.log(`action listener added`);
+	// console.log(`------addImgMarker end-------`);
 }
 
 // function onGeoSuccess(position){
