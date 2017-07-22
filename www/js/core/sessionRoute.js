@@ -11,8 +11,8 @@ class sessionRoute{
 	// add the location of the picture and GPS coordinates
 	addPic(latitude, longitude, imageDir){
 		this.pics.push({
-			latitude: latitude,
-			longitude: longitude,
+			lat: latitude,
+			lng: longitude,
 			imagePath: imageDir
 		});
 		console.log(`img added to sessionRoute`);

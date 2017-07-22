@@ -69,4 +69,55 @@ class googleMaps{
 		// this.mapCanvas.setCenter(this.mainMarker.getPosition());
 		this.mapCanvas.panTo(latLong);
 	}
+
+	addImgMarker(position, picture, markerOpts = null){
+		// console.log(`------addImgMarker start-------`);
+		// console.log(`coords: ${position.coords.latitude} : ${position.coords.longitude}`);
+		// console.log(`picture: ${picture}`);
+
+		let imgMarkerOpts = null;
+
+		if(markerOpts !== null){
+			imgMarkerOpts = markerOpts;
+		}
+
+		else{
+			imgMarkerOpts = {
+				id: curSession.pics.length - 1,       //this will be used for getting the image in picArray
+				map: this.mapCanvas,
+				animation: google.maps.Animation.DROP,
+				position: {lat: position.coords.latitude, lng: position.coords.longitude},
+				icon: {url: "https://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png"}
+			};
+		}
+
+		// const imgMarkerOpts = {
+		// 	id: curSession.pics.length - 1,       //this will be used for getting the image in picArray
+		// 	map: sessionMaps.mapCanvas,
+		// 	animation: google.maps.Animation.DROP,
+		// 	position: {lat: position.coords.latitude, lng: position.coords.longitude},
+		// 	icon: {url: "https://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png"}
+		// };
+
+		let imgMarker = new google.maps.Marker(imgMarkerOpts);
+		// console.log(`imgMarker created`);
+		imgMarker.addListener("click", function(){
+
+			$("#viewImgModal").modal({
+				dismissible: true,
+				startingTop: "2%", // Starting top style attribute
+				endingTop: "2%"}); // Ending top style attribute});
+
+			$("#viewImg").attr("src", picture);
+			$("#viewImg").width($("#viewImgModal").width() - 2*24);
+			$("#viewImg").css("margin-right", "24px");
+
+			const delta = $(window).height() - ($(window).height() * 0.02) - (1.5*24);
+			$("#viewImgModal").css("max-height", delta);
+			$("#viewImgModal").modal("open");
+
+		});
+		// console.log(`action listener added`);
+		// console.log(`------addImgMarker end-------`);
+	}
 }
