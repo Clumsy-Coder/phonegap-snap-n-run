@@ -34,9 +34,7 @@ const endFlagMarker = {
 
 window.onload = function()
 {
-	// console.log(`from sessionHistory.js`);
 	const filename = location.href.split("/").slice(-1);
-	// console.log(`filename: ${filename}`);
 
     //generate the list
     generateList();
@@ -88,38 +86,18 @@ function goToHistoryMenu()
 {
 	$("#historyMenu").show();
 	$("#historyList").show();
-	// $("#mapContainer").hide();
 	$("#historyViewer").hide();
-	// map = null;
 }
 
 function generateSession(id){
-
-    // get the saved data
-    // convert it to parseable content
-    // get the start and end of the routes
-    // calculate the route bounds (to be able to display properly)
-    // draw the route. update the total distance travelled
-    // add the start/end and picture makers
-
-	// console.log(`session id: ${id}`);
-
-
 	$("#historyMenu").hide();
 	$("#historyList").hide();
 	$("#historyViewer").show();
 
 	let session = store.get(listMap.get(parseInt(id)));
-	// console.log(`session object: ${session}`);
 	session = JSON.parse(session);
 
 	sessionMaps.loadMaps(session.routes[0].lat, session.routes[0].lng, false);
-
-	// for (var key in session) {
-	//   if (session.hasOwnProperty(key)) {
-	//     console.log(key + " -> " + session[key]);
-	//   }
-	// }
 
     // zoom to fit
 	const bounds = new google.maps.LatLngBounds();
@@ -134,9 +112,6 @@ function generateSession(id){
 
 // add start/end markers and picture markers
 function addSessionMarkers(session){
-	// add start and end markers
-	// add picture markers
-
 	const start = new google.maps.LatLng(session.routes[0].lat,
 	                                     session.routes[0].lng);
 	const end = new google.maps.LatLng(session.routes[session.routes.length - 1].lat,
