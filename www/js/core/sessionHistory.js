@@ -34,9 +34,9 @@ const endFlagMarker = {
 
 window.onload = function()
 {
-	console.log(`from sessionHistory.js`);
+	// console.log(`from sessionHistory.js`);
 	const filename = location.href.split("/").slice(-1);
-	console.log(`filename: ${filename}`);
+	// console.log(`filename: ${filename}`);
 
     //generate the list
     generateList();
@@ -102,7 +102,7 @@ function generateSession(id){
     // draw the route. update the total distance travelled
     // add the start/end and picture makers
 
-	console.log(`session id: ${id}`);
+	// console.log(`session id: ${id}`);
 
 
 	$("#historyMenu").hide();
@@ -110,7 +110,7 @@ function generateSession(id){
 	$("#historyViewer").show();
 
 	let session = store.get(listMap.get(parseInt(id)));
-	console.log(`session object: ${session}`);
+	// console.log(`session object: ${session}`);
 	session = JSON.parse(session);
 
 	sessionMaps.loadMaps(session.routes[0].lat, session.routes[0].lng, false);

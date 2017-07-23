@@ -8,7 +8,7 @@ class googleMaps{
 		this.mainMarker = null;
 		// console.log(this.mapContainer);
 		// console.log(this.map);
-		console.log(`googleMaps object created`);
+		// console.log(`googleMaps object created`);
 	}
 
 	get mapsCanvas(){
@@ -32,8 +32,8 @@ class googleMaps{
 
 	// called when there's a new GPS coordinates added to the routes array
 	drawRoute(routes = []){
-		console.log(`-------draw route start-------`);
-		console.log(`routes:\n${routes}`);
+		// console.log(`-------draw route start-------`);
+		// console.log(`routes:\n${routes}`);
 		const path = new google.maps.Polyline({
 			path: routes,
 			geodesic: true,
@@ -47,11 +47,11 @@ class googleMaps{
 		const distanceInKiloMeter = lengthInMeters / 1000;
 		$("#totalDistance").html(distanceInKiloMeter.toFixed(2) + " km");
 
-		console.log(`-------draw route end-------`);
+		// console.log(`-------draw route end-------`);
 	}
 
 	loadMaps(latitude = 0, longitude = 0, loadMarker = true){
-		console.log(`inside loadMaps: ${latitude}\t${longitude}`);
+		// console.log(`inside loadMaps: ${latitude}\t${longitude}`);
 		// setting the map container dimensions.
 		// used for displaying the map on screen.
 		// const height = $("#toolbar").height();

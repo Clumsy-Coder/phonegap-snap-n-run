@@ -25,7 +25,7 @@ window.onload = function(){
 
 	// only execute if the page is record.html
 	const filename = location.href.split("/").slice(-1);
-	console.log(`filename: ${filename}`);
+	// console.log(`filename: ${filename}`);
 	init();
 };
 
@@ -53,11 +53,11 @@ function init(){
 function stopRecording(){
 	navigator.geolocation.clearWatch(watchID);
 	const exportData = curSession.export();
-	for (var key in exportData) {
-	  if (exportData.hasOwnProperty(key)) {
-	    console.log(key + " -> " + exportData[key]);
-	  }
-	}
+	// for (var key in exportData) {
+	//   if (exportData.hasOwnProperty(key)) {
+	//     console.log(key + " -> " + exportData[key]);
+	//   }
+	// }
 
 	store.set(new Date(), curSession.export());
 	window.location.replace("index.html");
@@ -145,7 +145,7 @@ function takePhoto(){
 
 	getLocation()
 	.then((position) => {
-		console.log(`img coordinates: ${position.coords.latitude} : ${position.coords.longitude}`);
+		// console.log(`img coordinates: ${position.coords.latitude} : ${position.coords.longitude}`);
 		coordinates = position;
 		getPicture(position);
 	}).catch(onGeoError);
@@ -181,7 +181,7 @@ function getPicture(coordinates){
 	};
 
 	navigator.camera.getPicture((imageData) => {
-		console.log(`img: ${imageData}`);
+		// console.log(`img: ${imageData}`);
 		curSession.addPic(coordinates.coords.latitude, coordinates.coords.longitude, imageData);
 		const imgMarkerOpts = {
 			id: curSession.pics.length - 1,       //this will be used for getting the image in picArray

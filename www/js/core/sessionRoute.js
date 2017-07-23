@@ -15,7 +15,7 @@ class sessionRoute{
 			lng: longitude,
 			imagePath: imageDir
 		});
-		console.log(`img added to sessionRoute`);
+		// console.log(`img added to sessionRoute`);
 	}
 
 	addRoute(latitude, longitude){
