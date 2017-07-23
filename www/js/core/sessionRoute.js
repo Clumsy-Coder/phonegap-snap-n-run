@@ -1,7 +1,7 @@
 class sessionRoute{
-	constructor(picsArray = [], routesArray = []){
-		this.pics = picsArray;
-		this.routes = routesArray;
+	constructor(pics = [], routes = []){
+		this.pics = pics;
+		this.routes = routes;
 	}
 
 	// get routes(){
@@ -31,10 +31,12 @@ class sessionRoute{
 
 	// this is used for when saving the data to store.js
 	export(){
-		return {
-			pics: JSON.stringify(this.pics),
-			routes: JSON.stringify(this.routes)
-		};
+		return JSON.stringify({
+			// pics: JSON.stringify(this.pics),
+			// routes: JSON.stringify(this.routes)
+			pics: this.pics,
+			routes: this.routes
+		});
 	}
 
 	// get routes(){

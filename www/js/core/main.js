@@ -36,6 +36,9 @@ function init(){
 
 	navigator.geolocation.getCurrentPosition(
 		(position) => {
+			const height = $("#toolbar").height();
+			const totalHeight = $(window).height() - height - (1.6 * 18);
+			sessionMaps.mapContainer.style.height = totalHeight + "px";
 			sessionMaps.loadMaps(position.coords.latitude, position.coords.longitude);
 			curSession.addRoute(position.coords.latitude, position.coords.longitude);
 			sessionMaps.drawRoute(curSession.routes);

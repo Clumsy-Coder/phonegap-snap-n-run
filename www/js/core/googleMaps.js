@@ -32,7 +32,8 @@ class googleMaps{
 
 	// called when there's a new GPS coordinates added to the routes array
 	drawRoute(routes = []){
-		// console.log(`routes:\n${routes}`);
+		console.log(`-------draw route start-------`);
+		console.log(`routes:\n${routes}`);
 		const path = new google.maps.Polyline({
 			path: routes,
 			geodesic: true,
@@ -45,15 +46,17 @@ class googleMaps{
 		const lengthInMeters = google.maps.geometry.spherical.computeLength(path.getPath());
 		const distanceInKiloMeter = lengthInMeters / 1000;
 		$("#totalDistance").html(distanceInKiloMeter.toFixed(2) + " km");
+
+		console.log(`-------draw route end-------`);
 	}
 
-	loadMaps(latitude = 0, longitude = 0){
+	loadMaps(latitude = 0, longitude = 0, loadMarker = true){
 		console.log(`inside loadMaps: ${latitude}\t${longitude}`);
 		// setting the map container dimensions.
 		// used for displaying the map on screen.
-		const height = $("#toolbar").height();
-		const totalHeight = $(window).height() - height - (1.6 * 18);
-		this.mapContainer.style.height = totalHeight + "px";
+		// const height = $("#toolbar").height();
+		// const totalHeight = $(window).height() - height - (1.6 * 18);
+		// this.mapContainer.style.height = totalHeight + "px";
 		this.mapCanvas = new google.maps.Map(this.mapContainer, googleMaps.mapOpts);
 		const latLong = new google.maps.LatLng(latitude, longitude);
 		const markerOpts =
@@ -62,34 +65,37 @@ class googleMaps{
 			position: latLong,
 			map: this.mapCanvas,
 		};
-		this.mainMarker = new google.maps.Marker(markerOpts);
 
-		this.mainMarker.setMap(this.mapCanvas);
+		if(loadMarker){
+			this.mainMarker = new google.maps.Marker(markerOpts);
+
+			this.mainMarker.setMap(this.mapCanvas);
+		}
 		// map.setZoom(20);
 		// this.mapCanvas.setCenter(this.mainMarker.getPosition());
 		this.mapCanvas.panTo(latLong);
 	}
 
-	addImgMarker(position, picture, markerOpts = null){
+	addImgMarker(position, picture, imgMarkerOpts){
 		// console.log(`------addImgMarker start-------`);
 		// console.log(`coords: ${position.coords.latitude} : ${position.coords.longitude}`);
 		// console.log(`picture: ${picture}`);
 
-		let imgMarkerOpts = null;
-
-		if(markerOpts !== null){
-			imgMarkerOpts = markerOpts;
-		}
-
-		else{
-			imgMarkerOpts = {
-				id: curSession.pics.length - 1,       //this will be used for getting the image in picArray
-				map: this.mapCanvas,
-				animation: google.maps.Animation.DROP,
-				position: {lat: position.coords.latitude, lng: position.coords.longitude},
-				icon: {url: "https://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png"}
-			};
-		}
+		// let imgMarkerOpts = null;
+		//
+		// if(markerOpts !== null){
+		// 	imgMarkerOpts = markerOpts;
+		// }
+		//
+		// else{
+		// 	imgMarkerOpts = {
+		// 		id: curSession.pics.length - 1,       //this will be used for getting the image in picArray
+		// 		map: this.mapCanvas,
+		// 		animation: google.maps.Animation.DROP,
+		// 		position: {lat: position.coords.latitude, lng: position.coords.longitude},
+		// 		icon: {url: "https://mt.google.com/vt/icon?color=ff004C13&name=icons/spotlight/spotlight-waypoint-blue.png"}
+		// 	};
+		// }
 
 		// const imgMarkerOpts = {
 		// 	id: curSession.pics.length - 1,       //this will be used for getting the image in picArray
