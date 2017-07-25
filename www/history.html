@@ -4,12 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <title>Muhammad Assignment 2</title>
-        <!-- jQuery mobile CSS-->
-        <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
         <!-- jQuery -->
         <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-        <!-- jQuery mobile script -->
-        <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
         <!--Import Google Icon Font-->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -19,14 +15,16 @@
         <link type="text/css" rel="stylesheet" href="css/personal.css">
 
         <!-- Import Google Maps -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK9Of715WZW9J4qjLtTjCCJYH14Sw9K8Q&amp;sensor=false&amp;libraries=geometry"></script>
+        <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK9Of715WZW9J4qjLtTjCCJYH14Sw9K8Q&amp;sensor=false&amp;libraries=geometry"></script> -->
+        <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK9Of715WZW9J4qjLtTjCCJYH14Sw9K8Q"></script> -->
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK9Of715WZW9J4qjLtTjCCJYH14Sw9K8Q&amp;libraries=geometry"></script>
         <!-- To be able to view google maps content on phonegap -->
         <!--
             Obtained from
             http://stackoverflow.com/a/42268238/3053548
             http://stackoverflow.com/questions/22768723/sorry-we-have-no-imagery-here-error
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data:'unsafe-inline'">
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data:'unsafe-inline'"> -->
 
     </head>
     <body>
@@ -39,12 +37,20 @@
                             <a href="index.html" class="brand-logo left waves-effect waves-light" style="padding-left: 10px">
                                 <i class="material-icons small">keyboard_backspace</i>
                             </a>
-                            <a onclick="clearAllHistory()" class="brand-logo right waves-effect waves-light" style="padding-left: 15px">
-                                Clear All
-                                <i class="material-icons right">delete</i>
-                            </a>
                         </div>
                     </nav>
+                </div>
+                <!-- contains the command for clearing all the sessions -->
+                <div id="commandsBtn" class="fixed-action-btn click-to-toggle spin-close">
+                    <a class="btn-floating btn-large red">
+                        <i class="large material-icons">menu</i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a class="btn-floating blue"><i class="material-icons" onclick="clearAllHistory()">delete</i></a>
+                            <a href="#" class="btn-floating mobile-fab-tip">Clear all</a>
+                        </li>
+                    </ul>
                 </div>
                 <!-- contains the list of previous sessions -->
                 <div id="historyList" class="collection" style="margin-top: 0px; margin-bottom: 0px"></div>
@@ -64,9 +70,6 @@
                     </div>
                     <div id="toolbar" class="white-text">
                         <div class="row center-align">
-                            <!-- <div class="col s6">
-                                <h5>Time</h5>
-                            </div> -->
                             <div class="col s6">
                                 <h5>Distance</h5>
                             </div>
@@ -80,9 +83,6 @@
                             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                             <img id="viewImg">
                         </div>
-                        <!-- <div class="modal-footer">
-                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                        </div> -->
                     </div>
                     <div id="mapContainer" style="width: 100%"></div>
                 </div>
@@ -92,11 +92,7 @@
         <script type="text/javascript" src="js/materialize.js"></script>
         <script type="text/javascript" src="js/fontawesome-markers.min.js"></script>
         <script type="text/javascript" src="js/store.min.js"></script>
-        <script type="text/javascript" src="js/history.js">
-
-        </script>
-        <!-- <script type="text/javascript" src="js/route.js"></script> -->
-        <!-- <script type="text/javascript" src="js/structure.js"></script> -->
-        <script type="text/javascript" src="js/googleMaps.js"></script>
+        <script type="text/javascript" src="js/core/googleMaps.js"></script>
+        <script type="text/javascript" src="js/core/sessionHistory.js"></script>
     </body>
 </html>
