@@ -4,12 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <title>Muhammad Assignment 2</title>
-        <!-- jQuery mobile CSS-->
-        <!-- <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" /> -->
         <!-- jQuery -->
         <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-        <!-- jQuery mobile script -->
-        <!-- <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
 
         <!--Import Google Icon Font-->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,34 +26,23 @@
 
     </head>
 
-    <body style="background-color: #2196f3">
+    <!-- <body style="background-color:#2196f3; background-size: 100% 100%;"> -->
+    <body id="blueBackground">
         <!-- record screen -->
         <div data-role="page" id="recordScreen" style="margin-top:2%;">
             <div class="container">
                 <div id="toolbar" class="white-text">
                     <div class="row center-align">
-                        <!-- <div class="col s6">
-                            <h5>Time</h5>
-                        </div> -->
                         <div class="col s12">
                             <h5>Distance</h5>
                         </div>
                     </div>
                     <div class="row center-align">
-                        <!-- <div class="col s6">
-                            <h5 id="durationTime">0:00</h5>
-                        </div> -->
                         <div class="col s12">
                             <h5 id="totalDistance">0.00 km</h5>
                         </div>
                     </div>
                     <div class="row center-align">
-                        <!-- <div class="col s6">
-                            <a class="waves-effect waves-light btn blue">Pause
-                                <i id="playPauseIcon" class="material-icons right">pause</i>
-
-                            </a>
-                        </div> -->
                         <div class="col s12">
                             <a class="waves-effect waves-light btn red"
                                onclick="stopRecording()">
@@ -67,20 +52,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="divider"></div> -->
-                <!-- Map -->
-                <!-- <div class="row">
-
-                </div> -->
-
                 <div id="viewImgModal" class="modal">
                     <div class="modal-content">
                         <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
                         <img id="viewImg">
                     </div>
-                    <!-- <div class="modal-footer">
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                    </div> -->
                 </div>
                 <!-- Take photo -->
                 <div class="fixed-action-btn">
@@ -90,14 +66,24 @@
                     </a>
                 </div>
             </div>
+            <div id="spinner" class="preloader-wrapper big active center-align">
+                <div class="spinner-layer spinner-yellow-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
             <div id="mapContainer" style="width: 100%"></div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/materialize.js"></script>
         <script type="text/javascript" src="js/store.min.js"></script>
-        <!-- <script type="text/javascript" src="js/route.js"></script>
-        <script type="text/javascript" src="js/structure.js"></script>
-        <script type="text/javascript" src="js/googleMaps.js"></script> -->
         <script type="text/javascript" src="js/core/sessionRoute.js"></script>
         <script type="text/javascript" src="js/core/googleMaps.js"></script>
         <script type="text/javascript" src="js/core/main.js"></script>
