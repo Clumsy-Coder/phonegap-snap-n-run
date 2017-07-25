@@ -9,7 +9,7 @@ Displays the time it took to go from point A to point B as well the distance bet
 1. Download and install [PhoneGap](http://phonegap.com/getstarted/)
  - [Windows](https://github.com/phonegap/phonegap-app-desktop/releases/download/0.4.3/PhoneGapSetup-win32.exe)
  - [Mac](https://github.com/phonegap/phonegap-app-desktop/releases/download/0.4.3/PhoneGapDesktop.dmg)
-2. Download and unzip the project
+2. Download and unzip the [project](https://github.com/Clumsy-Coder/phonegap-snap-n-run/releases)
 3. Open PhoneGap
 4. Add project (click on the plus symbol)
 5. Click on **Open existing PhoneGap project**
