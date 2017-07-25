@@ -45,7 +45,7 @@ obtained from: https://www.gradient-animator.com/
         50%{background-position:100% 50%}
         100%{background-position:0% 50%}
     }
-    
+
 }*/
 
 #viewImgModal
@@ -57,6 +57,14 @@ obtained from: https://www.gradient-animator.com/
 #helpModel
 {
     max-height: 500px;
+}
+#spinner {
+   position: absolute;
+   top :0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   margin: auto;
 }
 
 /*#viewImg

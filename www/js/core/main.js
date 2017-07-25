@@ -21,8 +21,14 @@ function init(){
 		(position) => {
 			const height = $("#toolbar").height();
 			const totalHeight = $(window).height() - height - (1.6 * 18);
+			// loading spinner
+			document.getElementById("spinner").style.width = $(window).width();
+			document.getElementById("spinner").style.left = totalHeight;
+
 			sessionMaps.mapContainer.style.height = totalHeight + "px";
 			sessionMaps.loadMaps(position.coords.latitude, position.coords.longitude);
+			document.getElementById("spinner").style.display = "none";
+
 			curSession.addRoute(position.coords.latitude, position.coords.longitude);
 			sessionMaps.drawRoute(curSession.routes);
 		},

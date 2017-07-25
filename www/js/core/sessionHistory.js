@@ -1,7 +1,6 @@
 let listMap = new Map();  // key, value map, NOT google maps object
 let sessionMaps = null;
 const startEndMarkerOpts = {
-	// map: sessionMaps.mapCanvas,
 	animation: google.maps.Animation.DROP,
 	zIndex: -1
 };
