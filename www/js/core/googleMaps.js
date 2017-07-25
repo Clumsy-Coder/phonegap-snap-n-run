@@ -1,14 +1,20 @@
+// googleMaps class
+// used as a utility in Snap-n-run phonegap application
+// used in main.js for displaying the map and highliting the route taken
+// used in sessionHistory for displaying the history of a particular session
+// capable of loadingMaps, drawing routes and adding img markers on the map.
+
 class googleMaps{
 	// mapContainer : assuming it's retrieved by document.getElementById
 	constructor(mapContainer){
 		this.mapContainer = mapContainer;
 		this.mapCanvas = null
 		this.mainMarker = null;
-	}
+	}// END constructor(mapContainer)
 
 	get mapsCanvas(){
 		return this.mapCanvas;
-	}
+	}// END mapCanvas getter
 
 	static get mapOpts(){
 		return {
@@ -22,9 +28,10 @@ class googleMaps{
 			rotateControl: true,
 			fullscreenControl: true
 		};
-	}
+	}// END static getter mapOpts
 
 	// called when there's a new GPS coordinates added to the routes array
+	// or when displaying a session from history
 	drawRoute(routes = []){
 		const path = new google.maps.Polyline({
 			path: routes,
@@ -38,8 +45,12 @@ class googleMaps{
 		const lengthInMeters = google.maps.geometry.spherical.computeLength(path.getPath());
 		const distanceInKiloMeter = lengthInMeters / 1000;
 		$("#totalDistance").html(distanceInKiloMeter.toFixed(2) + " km");
-	}
+	}// END FUNCTION drawRoute(routes)
 
+	// loads google maps. Doesn't add any routes to the map
+	// used in main.js and sessionHistory
+	// loadMarker is used in main.js
+	// 		to make it more flexible in other context
 	loadMaps(latitude = 0, longitude = 0, loadMarker = true){
 		this.mapCanvas = new google.maps.Map(this.mapContainer, googleMaps.mapOpts);
 		const latLong = new google.maps.LatLng(latitude, longitude);
@@ -56,8 +67,10 @@ class googleMaps{
 			this.mainMarker.setMap(this.mapCanvas);
 		}
 		this.mapCanvas.panTo(latLong);
-	}
+	}// END FUNCTION loadMaps(latitude, longitude, loadMarker)
 
+	// adds the image marker once the image has been taken
+	// must provide position, picture and imgMarkerOpts
 	addImgMarker(position, picture, imgMarkerOpts){
 		let imgMarker = new google.maps.Marker(imgMarkerOpts);
 		imgMarker.addListener("click", function(){
@@ -75,5 +88,5 @@ class googleMaps{
 			$("#viewImgModal").css("max-height", delta);
 			$("#viewImgModal").modal("open");
 		});
-	}
-}
+	}// END FUNCTION addImgMarker(position, picture, imgMarkerOpts)
+}// END CLASS googleMaps

@@ -1,19 +1,30 @@
 // contains the main logic of the application
 // used when recording the session.
 
-let watchID = null;
-let curSession = null;
-let sessionMaps = null;
+let watchID = null;			// contains the ID of watching changes in GPS coords.
+let curSession = null;		// an instance of sessionRoute
+let sessionMaps = null;		// an instance of googleMaps
 
+// extra info when using the GPS
 const geoOpts = {
 	enableHighAccuracy: true
 };
 
 window.onload = function(){
 	init();
-};
+};// END FUNCTION window.onload()
 
+// loads the sessionRoute and googleMaps.
 function init(){
+	// init sessionRoute and googleMaps
+	// get the current location
+	// 		stop the loading spinner
+	// 		set the height of the google maps canvas
+	// 		load googleMaps canvas
+	// 		add the current location to sessionRoute
+	// 		draw the route
+	// start watching for GPS changes
+
 	curSession = new sessionRoute();
 	sessionMaps = new googleMaps(document.getElementById("mapContainer"));
 
@@ -37,16 +48,28 @@ function init(){
 	);
 	// watch for the GPS changes.
 	watchID = navigator.geolocation.watchPosition(onMapWatchSuccess, onMapWatchError, geoOpts);
-}
+}// END FUNCTION init()
 
+// stop listening to GPS changes and saves the sessionRoute data
 function stopRecording(){
 	navigator.geolocation.clearWatch(watchID);
 	const exportData = curSession.export();
 	store.set(new Date(), curSession.export());
 	window.location.replace("index.html");
-}
+}// END FUNCTION stopRecording()
 
+// when there's a change in GPS location
 function onMapWatchSuccess(position){
+	// save the coords into google.maps.LatLng
+	// get the last GPS coords
+	// get the absolute difference between the previous GPS coords and the current once
+	// check if the difference exceeds a certain threshold
+	//		if exceeds
+	// 		move the main google maps marker to the new coords
+	// 		move the map to the new coords
+	// 		add the GPS coords to sessionRoute
+	// 		draw the route
+
 	const newCoords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
 	const lastCoords = curSession.routes[curSession.routes.length - 1];
@@ -65,34 +88,34 @@ function onMapWatchSuccess(position){
 		curSession.addRoute(position.coords.latitude, position.coords.longitude);
 		sessionMaps.drawRoute(curSession.routes);
 	}
-}
+}// END FUNCTION onMapWatchSuccess(position)
 
+// occurs when the app is unable to get GPS coordinates during the GPS watch
 function onMapWatchError(error){
 	console.log(`code: ${error.code}
 				 message: ${error.message}`);
-}
+}// END FUNCTION onMapWatchError(error)
 
+// process for taking a picture.
 function takePhoto(){
-	let coordinates = null;
-	let picture = null;
+	// get the current location
+	// get the picture
+	// add an image marker on google maps
+	getLocation().then((position) => getPicture(position)).catch(onGeoError);
+}// END FUNCTION takePhoto()
 
-	getLocation()
-	.then((position) => {
-		coordinates = position;
-		getPicture(position);
-	}).catch(onGeoError);
-}
-
+// get the current GPS coords and return it
 function getLocation(){
 	return new Promise(function(resolve, reject){
-		const geoOpts = {
-			enableHighAccuracy: true
-		};
 		navigator.geolocation.getCurrentPosition(resolve, reject, geoOpts);
 	});
-}
+}// END FUNCTION getLocation()
 
+// get the picture, add it to sessionRoute and add an image marker
 function getPicture(coordinates){
+	// get the picture
+	// add the image to sessionRoute
+	// add the image marker on google maps
 	const cameraOpts = {
 		quality: 100,
 		sourceType: Camera.PictureSourceType.CAMERA,
@@ -112,14 +135,16 @@ function getPicture(coordinates){
 		};
 		sessionMaps.addImgMarker(coordinates, imageData, imgMarkerOpts);
 	}, onCameraError, cameraOpts);
-}
+}// END FUNCTION getPicture(coordinates)
 
+// occurs when the app is unable to get a GPS coordinates when taking a picture
 function onGeoError(error){
 	console.log(`takePhoto() error: unable to get GPS coordinates\n${error}`);
 	navigator.notification.alert(`Error: unable to retrieve GPS coordinates for picture\n${error}`);
-}
+}// END FUNCTION onGeoError(error)
 
+// occures when the app is unable to get the picture
 function onCameraError(error){
 	console.log(`Error: unable to get picture\n${error}`);
 	navigator.notification.alert(`Error: unable to get picture\n${error}`)
-}
+}// END FUNCTION onCameraError(error)
