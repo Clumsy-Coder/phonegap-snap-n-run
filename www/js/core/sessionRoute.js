@@ -1,3 +1,6 @@
+// sessionRoute class
+// used in main.js
+// used for keeping track of route and pictures taken by the user
 class sessionRoute{
 	constructor(pics = [], routes = []){
 		this.pics = pics;
@@ -17,8 +20,8 @@ class sessionRoute{
 	// contains the path taken during the recording of the session
 	addRoute(latitude, longitude){
 		let latLong = new Object();
-		latLong['lat'] = latitude;
-		latLong['lng'] = longitude;
+		latLong["lat"] = latitude;
+		latLong["lng"] = longitude;
 		this.routes.push(latLong);
 	}// END FUNCTION addRoute(latitude, longitude)
 

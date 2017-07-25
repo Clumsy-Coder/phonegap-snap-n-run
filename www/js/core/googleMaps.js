@@ -54,8 +54,7 @@ class googleMaps{
 	loadMaps(latitude = 0, longitude = 0, loadMarker = true){
 		this.mapCanvas = new google.maps.Map(this.mapContainer, googleMaps.mapOpts);
 		const latLong = new google.maps.LatLng(latitude, longitude);
-		const markerOpts =
-		{
+		const markerOpts = {
 			animation: google.maps.Animation.DROP,
 			position: latLong,
 			map: this.mapCanvas,
