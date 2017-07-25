@@ -37,12 +37,20 @@
                             <a href="index.html" class="brand-logo left waves-effect waves-light" style="padding-left: 10px">
                                 <i class="material-icons small">keyboard_backspace</i>
                             </a>
-                            <a onclick="clearAllHistory()" class="brand-logo right waves-effect waves-light" style="padding-left: 15px">
-                                Clear All
-                                <i class="material-icons right">delete</i>
-                            </a>
                         </div>
                     </nav>
+                </div>
+                <!-- contains the command for clearing all the sessions -->
+                <div id="commandsBtn" class="fixed-action-btn click-to-toggle spin-close">
+                    <a class="btn-floating btn-large red">
+                        <i class="large material-icons">menu</i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a class="btn-floating blue"><i class="material-icons" onclick="clearAllHistory()">delete</i></a>
+                            <a href="#" class="btn-floating mobile-fab-tip">Clear all</a>
+                        </li>
+                    </ul>
                 </div>
                 <!-- contains the list of previous sessions -->
                 <div id="historyList" class="collection" style="margin-top: 0px; margin-bottom: 0px"></div>

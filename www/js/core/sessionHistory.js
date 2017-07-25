@@ -47,6 +47,7 @@ window.onload = function(){
 
     $("#historyMenu").show();
     $("#historyList").show();
+	$("#commandsBtn").show();
     $("#historyViewer").hide();
 
 	$("#mapContainer").show();
@@ -90,6 +91,7 @@ function generateList(){
 
 // clear all saved sessions
 function clearAllHistory(){
+	$('.fixed-action-btn').closeFAB();
 	store.clear();
 	listMap.clear();
 	$("#historyList").html("");
@@ -99,6 +101,7 @@ function clearAllHistory(){
 function goToHistoryMenu(){
 	$("#historyMenu").show();
 	$("#historyList").show();
+	$("#commandsBtn").show();
 	$("#historyViewer").hide();
 }// END FUNCTION goToHistoryMenu()
 
@@ -113,6 +116,7 @@ function generateSession(id){
 
 	$("#historyMenu").hide();
 	$("#historyList").hide();
+	$("#commandsBtn").hide();
 	$("#historyViewer").show();
 
 	let session = store.get(listMap.get(parseInt(id)));
